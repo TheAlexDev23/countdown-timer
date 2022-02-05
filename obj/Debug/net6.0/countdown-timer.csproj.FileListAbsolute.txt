@@ -1,0 +1,15 @@
+/home/alex/Documents/countdown-timer/bin/Debug/net6.0/countdown-timer
+/home/alex/Documents/countdown-timer/bin/Debug/net6.0/countdown-timer.deps.json
+/home/alex/Documents/countdown-timer/bin/Debug/net6.0/countdown-timer.runtimeconfig.json
+/home/alex/Documents/countdown-timer/bin/Debug/net6.0/countdown-timer.dll
+/home/alex/Documents/countdown-timer/bin/Debug/net6.0/ref/countdown-timer.dll
+/home/alex/Documents/countdown-timer/bin/Debug/net6.0/countdown-timer.pdb
+/home/alex/Documents/countdown-timer/obj/Debug/net6.0/countdown-timer.csproj.AssemblyReference.cache
+/home/alex/Documents/countdown-timer/obj/Debug/net6.0/countdown-timer.GeneratedMSBuildEditorConfig.editorconfig
+/home/alex/Documents/countdown-timer/obj/Debug/net6.0/countdown-timer.AssemblyInfoInputs.cache
+/home/alex/Documents/countdown-timer/obj/Debug/net6.0/countdown-timer.AssemblyInfo.cs
+/home/alex/Documents/countdown-timer/obj/Debug/net6.0/countdown-timer.csproj.CoreCompileInputs.cache
+/home/alex/Documents/countdown-timer/obj/Debug/net6.0/countdown-timer.dll
+/home/alex/Documents/countdown-timer/obj/Debug/net6.0/ref/countdown-timer.dll
+/home/alex/Documents/countdown-timer/obj/Debug/net6.0/countdown-timer.pdb
+/home/alex/Documents/countdown-timer/obj/Debug/net6.0/countdown-timer.genruntimeconfig.cache
