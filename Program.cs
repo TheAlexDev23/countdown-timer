@@ -16,6 +16,7 @@ var hours   = 0;
 AnalyzeTime();
 FormatTime();
 
+Console.WriteLine(hours + " " + minutes +  " " + seconds);
 
 ConfigureConsoleToStart();
 
@@ -23,39 +24,37 @@ ConfigureConsoleToStart();
 //TODO: create something capable of drawing time in the following format hh:mm:ss
 while (true) {
     seconds--;
+    
     FormatTime();
+
+    if((hours == minutes) && (minutes == seconds) && (seconds == 0)) {
+       break; 
+    }
 
     string timeToPrintString = ""; 
 
-    if (minutes > 0)
-        timeToPrintString += seconds.ToString("00");
-    else
-        timeToPrintString += seconds.ToString();
-
-    timeToPrintString += ":";
-
-    if (hours > 0) 
-        timeToPrintString += minutes.ToString("00");
-    else 
-        timeToPrintString += minutes.ToString();
-
-    timeToPrintString += ":";
-
     timeToPrintString += hours.ToString();
+    
+    timeToPrintString += ":";
+    
+    timeToPrintString += minutes.ToString("00");
 
-    Console.WriteLine(timeToPrintString);
-    break;
+    timeToPrintString += ":";
+    
+    timeToPrintString += seconds.ToString("00");
 
     int count = 0;
 
+    Console.WriteLine(timeToPrintString);
+
     foreach(var t in timeToPrintString) {
-        Console.CursorLeft = 8 * count;
+        Console.CursorLeft = 8 * count + count;
         Console.CursorTop  = 0;
 
         string printResult = "";
 
         if (t != ':') {
-            printResult = GetAsciiByNum(Convert.ToInt32(t));
+            printResult = GetAsciiByNum(Convert.ToInt32(t.ToString()));
         } else {
             printResult = GetAsciiByNum(10);
         }
@@ -64,9 +63,11 @@ while (true) {
             if (s != '\n') {
                 Console.Write(s);
             } else {
-                Console.CursorTop++;
+                Console.Write(s);
+                Console.CursorLeft = 8 * count + count;
             }
         }
+
         count++;
     }
 
@@ -74,7 +75,7 @@ while (true) {
        break; 
     }
 
-    Thread.Sleep(1);
+    Thread.Sleep(1000);
 }
 
 ConfigureConsoleToEnd();
@@ -129,35 +130,48 @@ void AnalyzeTime() {
  */
 
 void FormatTime() {
-    while(seconds >= 60) {
+    while (seconds >= 60) {
         minutes++;
         seconds -= 60;
     }
 
-    while(minutes >= 60) {
+    while (minutes >= 60) {
         hours++;
         minutes -= 60;
     }
 
-    if(hours == 0 && !hoursPreviousEqualToZero) {
-        minutes = 59;
-        seconds = 60;
-        hoursPreviousEqualToZero = true;
+    if (hours <= 0) {
+        if(!hoursPreviousEqualToZero) {
+            minutes = 59;
+            seconds = 59;
+            hoursPreviousEqualToZero = true;
+        }
     } else {
         hoursPreviousEqualToZero = false;
     }
     
-    if(minutes == 0 && !minutesPreviousEqualToZero) {
-        hours--;
-        minutes = 59;
-        minutesPreviousEqualToZero = true;
+    if (minutes <= 0) {
+        if (!minutesPreviousEqualToZero) {
+            hours--;
+            minutes = 59;
+            minutesPreviousEqualToZero = true;
+        }
     } else {
         minutesPreviousEqualToZero = false;
     }
 
-    if(seconds == 0) {
-        minutes--;
-        seconds = 60;
+    if (seconds <= 0) {
+        if(minutes > 0) {
+            minutes--;
+        } else {
+            if(hours > 0) {
+                hours--;
+                minutes = 59;
+            } else {
+                return;
+            }
+        }
+        seconds = 59;
     }
 }
 
