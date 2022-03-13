@@ -1,10 +1,15 @@
 # Countdown Timer
 
+
 As the name sugests this is a timer that runs on the terminal.
 
 You give it an input in hours minutes and seconds and it runs.
 
 When the time finishes it will produce a "beep".
+
+Screenshot:
+
+![AltText](/Images/screenshot1.png)
 
 # Usage
 
