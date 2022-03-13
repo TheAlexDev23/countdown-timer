@@ -6,6 +6,8 @@
     <RootNamespace>countdown_timer</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <PublishSingleFile>true</PublishSingleFile>
+</PropertyGroup>
 
 </Project>
