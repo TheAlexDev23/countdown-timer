@@ -14,14 +14,23 @@ var seconds = 0;
 var hours   = 0;
 
 AnalyzeTime();
+
+while (seconds >= 60) {
+    minutes++;
+    seconds -= 60;
+}
+
+while (minutes >= 60) {
+    hours++;
+    minutes -= 60;
+}
+
 FormatTime();
 
 Console.WriteLine(hours + " " + minutes +  " " + seconds);
 
 ConfigureConsoleToStart();
 
-//TODO: every second change the text on the screen and subtract 1 second from the total timer
-//TODO: create something capable of drawing time in the following format hh:mm:ss
 while (true) {
     seconds--;
     
@@ -44,9 +53,7 @@ while (true) {
     timeToPrintString += seconds.ToString("00");
 
     int count = 0;
-
-    Console.WriteLine(timeToPrintString);
-
+    
     foreach(var t in timeToPrintString) {
         Console.CursorLeft = 8 * count + count;
         Console.CursorTop  = 0;
@@ -54,7 +61,14 @@ while (true) {
         string printResult = "";
 
         if (t != ':') {
-            printResult = GetAsciiByNum(Convert.ToInt32(t.ToString()));
+            try {
+                printResult = GetAsciiByNum(Convert.ToInt32(t.ToString()));
+            } catch {
+                Console.Clear();
+
+                Console.WriteLine(t + " " + t.ToString());
+                return;
+            }
         } else {
             printResult = GetAsciiByNum(10);
         }
@@ -122,28 +136,30 @@ void AnalyzeTime() {
     if (minutes == 0) minutesPreviousEqualToZero = true;
 }
 
-/*
- * For example:
- * 2h65m120s
- * This function would convert it to:
- * 3h2m
- */
-
 void FormatTime() {
-    while (seconds >= 60) {
-        minutes++;
-        seconds -= 60;
+    if (seconds < 0) {
+        minutes--;
+        seconds = 59;
     }
 
-    while (minutes >= 60) {
-        hours++;
-        minutes -= 60;
+    if (minutes < 0) {
+        hours--;
+        minutes = 59;
     }
 
+    if (hours < 0) {
+        return;
+    }
+
+    /* Some dumb shit I did before. Didn't know what I was doing it was around 3am 
     if (hours <= 0) {
         if(!hoursPreviousEqualToZero) {
-            minutes = 59;
-            seconds = 59;
+            if(minutes <= 0 && seconds <= 0) {
+                return;
+            } else {
+                minutes = 59;
+                seconds = 59;
+            }
             hoursPreviousEqualToZero = true;
         }
     } else {
@@ -154,6 +170,7 @@ void FormatTime() {
         if (!minutesPreviousEqualToZero) {
             hours--;
             minutes = 59;
+            seconds = 59;
             minutesPreviousEqualToZero = true;
         }
     } else {
@@ -173,6 +190,7 @@ void FormatTime() {
         }
         seconds = 59;
     }
+    */
 }
 
 void ConfigureConsoleToStart() {
@@ -229,7 +247,7 @@ string GetAsciiByNum(int num) {
             result = "██    ██\n";
             result+= "██    ██\n";
             result+= "██    ██\n";
-            result+= "████████ \n";
+            result+= "████████\n";
             result+= "      ██\n";
             result+= "      ██\n";
             result+= "      ██\n";
