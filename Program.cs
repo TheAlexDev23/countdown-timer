@@ -3,10 +3,6 @@
     return;
 }
 
-// I hate to do this, but didn't find any other way :(
-var hoursPreviousEqualToZero   = false;
-var minutesPreviousEqualToZero = false;
-
 var time = args[0];
 
 var minutes = 0;
@@ -31,15 +27,14 @@ Console.WriteLine(hours + " " + minutes +  " " + seconds);
 
 ConfigureConsoleToStart();
 
+//Render every seconds the timer. And substract one second each time
 while (true) {
     seconds--;
     
     FormatTime();
-
-    if((hours == minutes) && (minutes == seconds) && (seconds == 0)) {
-       break; 
-    }
-
+    
+    //This will be the result we would print out (the numbers not the ASCII art)
+    //For example: 1:45:12 
     string timeToPrintString = ""; 
 
     timeToPrintString += hours.ToString();
@@ -54,6 +49,7 @@ while (true) {
 
     int count = 0;
     
+    //For each number in the result string print it's ASCII art
     foreach(var t in timeToPrintString) {
         Console.CursorLeft = 8 * count + count;
         Console.CursorTop  = 0;
@@ -89,18 +85,23 @@ while (true) {
        break; 
     }
 
-    Thread.Sleep(1000);
+    Thread.Sleep(1000); // wait one second before starting again
 }
 
 ConfigureConsoleToEnd();
 
-/*
-
-All the functions
-
-*/
 
 // Would set values of Seconds Minutes and Hours according to the Time value
+/* The input in the time variable is in the following format:
+    XhYmZs
+    X => Amount of hours (because h comes after it)
+    Y => amount of minutes (because m comes after it)
+    Z => amount of seconds (because s comes after it)
+
+    We can add a buffer variable that will keep reading until it finds either h, m or s.
+    When it finds one of those letters it will save all the numbers since the letter and call them hours minutes or seconds (depending if the letter was h m or s)
+    Then it will clear itself and continue doing the same procedure
+*/
 void AnalyzeTime() {
     string? secondsStr = null;
     string? minutesStr = null;
@@ -127,15 +128,15 @@ void AnalyzeTime() {
                 break;
         }
     }
-
+    
     if (secondsStr is not null) seconds = Convert.ToInt32(secondsStr);
     if (minutesStr is not null) minutes = Convert.ToInt32(minutesStr);
     if (hoursStr is not null)   hours   = Convert.ToInt32(hoursStr);
-    
-    if (hours == 0)   hoursPreviousEqualToZero   = true;
-    if (minutes == 0) minutesPreviousEqualToZero = true;
 }
 
+//If we substract seconds one at a time. At some point the minute will end and we will need to substract one minute from the minute variable.
+//Something similar happens with hours. If the hour ends we need to substract one hour from the hour variable.
+//This function is the one that does all this.
 void FormatTime() {
     if (seconds < 0) {
         minutes--;
@@ -147,57 +148,16 @@ void FormatTime() {
         minutes = 59;
     }
 
-    if (hours < 0) {
-        return;
-    }
-
-    /* Some dumb shit I did before. Didn't know what I was doing it was around 3am 
-    if (hours <= 0) {
-        if(!hoursPreviousEqualToZero) {
-            if(minutes <= 0 && seconds <= 0) {
-                return;
-            } else {
-                minutes = 59;
-                seconds = 59;
-            }
-            hoursPreviousEqualToZero = true;
-        }
-    } else {
-        hoursPreviousEqualToZero = false;
-    }
-    
-    if (minutes <= 0) {
-        if (!minutesPreviousEqualToZero) {
-            hours--;
-            minutes = 59;
-            seconds = 59;
-            minutesPreviousEqualToZero = true;
-        }
-    } else {
-        minutesPreviousEqualToZero = false;
-    }
-
-    if (seconds <= 0) {
-        if(minutes > 0) {
-            minutes--;
-        } else {
-            if(hours > 0) {
-                hours--;
-                minutes = 59;
-            } else {
-                return;
-            }
-        }
-        seconds = 59;
-    }
-    */
+    if (hours < 0) return;
 }
 
+//Self explanatory
 void ConfigureConsoleToStart() {
     Console.Clear();
     Console.CursorVisible = false;
 }
 
+//Self explanatory
 void ConfigureConsoleToEnd() {
     Console.CursorVisible = true;
 }
