@@ -82,7 +82,8 @@ while (true) {
     }
 
     if((hours == minutes) && (minutes == seconds) && (seconds == 0)) {
-       break; 
+        Console.Beep();
+        break; 
     }
 
     Thread.Sleep(1000); // wait one second before starting again
@@ -148,7 +149,10 @@ void FormatTime() {
         minutes = 59;
     }
 
-    if (hours < 0) return;
+    if (hours < 0) {
+        Console.Beep();
+        return;
+    }
 }
 
 //Self explanatory
