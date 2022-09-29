@@ -1,5 +1,6 @@
-# Countdown Timer
+Made this to test .net 6 
 
+# Countdown Timer
 
 As the name sugests this is a timer that runs on the terminal.
 
